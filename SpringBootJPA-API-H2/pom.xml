@@ -46,24 +46,35 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web-services</artifactId>
+		</dependency>
 		
 		<!-- test -->
-		
-		<dependency>
-		   <groupId>org.mockito</groupId>
-		   <artifactId>mockito-core</artifactId>
-		   <version>2.13.0</version>
+ 	<dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>mockito-core</artifactId>
+		    <version>2.25.1</version>
+		    <scope>test</scope>
 		</dependency>
-	
+		<dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>junit-jupiter</artifactId>
+		    <version>2.20.0</version>
+		</dependency>
+	 
 				
 	</dependencies>
 
 	<build>
 		<plugins>
-			<plugin>
+			 <plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			 
+		 
 		</plugins>
 	</build>
 

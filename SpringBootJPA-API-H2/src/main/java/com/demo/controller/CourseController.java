@@ -21,8 +21,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.demo.entity.Course;
 import com.demo.exception.ApiRequestException;
 import com.demo.exception.ResourceNotFoundException;
+import com.demo.response.APIResponse;
 import com.demo.service.CourseService;
 import com.demo.service.StudentService;
+import com.demo.utils.ResponseUtils;
 
 @Controller
 @RequestMapping("/api/v1/courses")
@@ -31,14 +33,16 @@ public class CourseController {
 	CourseService courseService;
 	@Autowired
 	StudentService studentService;
+	@Autowired
+	ResponseUtils responseUtils;
 	
 	@GetMapping
-	public ResponseEntity<List<Course>> getAll(){
+	public ResponseEntity<APIResponse> getAll(){
 		List<Course> courses = courseService.getAll();
 		if(courses.isEmpty()) {
-			return new ResponseEntity<List<Course>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<APIResponse>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<Course>>(courses,HttpStatus.OK);	
+		return responseUtils.buildResponseSuccess(courses);
 	}
 //	@GetMapping("/student/{studentId}")// lấy ra các khóa học của student
 //	public ResponseEntity<List<Course>> getByStudent(@PathVariable("studentId") long studentId){

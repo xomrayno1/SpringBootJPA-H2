@@ -22,9 +22,11 @@ import com.demo.entity.Address;
 import com.demo.entity.Course;
 import com.demo.entity.Student;
 import com.demo.exception.ResourceNotFoundException;
+import com.demo.response.APIResponse;
 import com.demo.service.AddressService;
 import com.demo.service.CourseService;
 import com.demo.service.StudentService;
+import com.demo.utils.ResponseUtils;
 
 @Controller
 @RequestMapping("/api/v1/students")
@@ -35,13 +37,15 @@ public class StudentController {
 	CourseService courseService;
 	@Autowired
 	AddressService addressService;
+	@Autowired
+	ResponseUtils responseUtils;
 	@GetMapping
-	public	ResponseEntity<List<Student>> getAll() {
+	public	ResponseEntity<APIResponse> getAll() {
 		List<Student> students = 	studentService.getAll();
 		if(students.isEmpty()) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.noContent().build();
 		}
-		return new ResponseEntity<List<Student>>(students,HttpStatus.OK);
+		return responseUtils.buildResponseSuccess(students);
 	}
 	@GetMapping("/{id}")
 	public	ResponseEntity<Student> getById(@PathVariable("id") long id) {
