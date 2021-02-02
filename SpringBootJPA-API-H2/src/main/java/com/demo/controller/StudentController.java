@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,28 +49,24 @@ public class StudentController {
 		return responseUtils.buildResponseSuccess(students);
 	}
 	@GetMapping("/{id}")
-	public	ResponseEntity<Student> getById(@PathVariable("id") long id) {
+	public	ResponseEntity<APIResponse> getById(@PathVariable("id") long id) {
 		Student student = studentService.getById(id);
 		if(student == null) {
 			throw new ResourceNotFoundException("student not found exception with id :"+id);
 		}
-		return new ResponseEntity<Student>(student,HttpStatus.OK);
+		return responseUtils.buildResponseSuccess(student);
 	}
 	@GetMapping("/{id}/courses") // lấy ra các khóa học của student
-	public	ResponseEntity<List<Course>> getCourseByStudentId(@PathVariable("id") long id) {
+	public	ResponseEntity<APIResponse> getCourseByStudentId(@PathVariable("id") long id) {
 		Student student = studentService.getById(id);
 		if(student == null) {
 			throw new ResourceNotFoundException("student not found exception with id :"+id);
 		}
 		List<Course> courses = courseService.getByStudents(student);
-		return new ResponseEntity<List<Course>>(courses,HttpStatus.OK);
+		return responseUtils.buildResponseSuccess(courses);
 	}
  
-		 
-	 
-		 
-	 
-	@PostMapping
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public	ResponseEntity<Object> createStudent(@Valid @RequestBody Student student) { 
 		if(studentService.isExists(student.getCodeStudent())) {
 			return new ResponseEntity<Object>(HttpStatus.CONFLICT);
@@ -100,7 +97,7 @@ public class StudentController {
 			if(student.getLastName() != null) {
 				oldStudent.setLastName(student.getLastName());
 			}
-			oldStudent = studentService.updateStudent(oldStudent);
+			oldStudent = studentService.updateStudent(student);
 			return new ResponseEntity<Object>(oldStudent,HttpStatus.OK);
 		}
 	}
@@ -115,16 +112,17 @@ public class StudentController {
 	}
 	//lấy address từ student
 	@GetMapping("/{id}/address") // lấy ra các address của student
-	public	ResponseEntity<List<Address>> getAddressByStudent(@PathVariable("id") long id) {
+	public	ResponseEntity<APIResponse> getAddressByStudent(@PathVariable("id") long id) {
 		Student student = studentService.getById(id);
 		if(student == null) {
 			throw new ResourceNotFoundException("student not found exception with id :"+id);
 		}
 		List<Address> address = addressService.getByStudent(student);
-		return new ResponseEntity<List<Address>>(address,HttpStatus.OK);
+		//return new ResponseEntity<List<Address>>(address,HttpStatus.OK);
+		return responseUtils.buildResponseSuccess(address);
 	}
 	@GetMapping("/{id}/address/{addressId}") // lấy ra các address của student
-	public	ResponseEntity<Address> getAddressByStudentandAddress(
+	public	ResponseEntity<APIResponse> getAddressByStudentandAddress(
 			@PathVariable("id") long id,
 			@PathVariable("addressId") long addressId) {
 		Student student = studentService.getById(id);
@@ -135,7 +133,8 @@ public class StudentController {
 			if(address == null) {
 				throw new ResourceNotFoundException("address not found exception with id :"+id);
 			}else {
-				return new ResponseEntity<Address>(address,HttpStatus.OK);
+				//return new ResponseEntity<Address>(address,HttpStatus.OK);
+				return responseUtils.buildResponseSuccess(address);
 			}
 		}
 	}
@@ -157,7 +156,7 @@ public class StudentController {
 		}
 	}
 	@PutMapping("/{id}/address")
-	public	ResponseEntity<Address> updateAddress(@PathVariable("id") long id,
+	public	ResponseEntity<APIResponse> updateAddress(@PathVariable("id") long id,
 							@Valid @RequestBody Address address) {
 		Student student = studentService.getById(id);
 		if(student == null) {
@@ -177,7 +176,8 @@ public class StudentController {
 					oldAddress.setWard(address.getWard());
 				}
 				oldAddress = addressService.updateAddress(address);
-				return new ResponseEntity<Address>(oldAddress,HttpStatus.OK);
+				//return new ResponseEntity<Address>(oldAddress,HttpStatus.OK);
+				return responseUtils.buildResponseSuccess(oldAddress);
 			}	 
 		}
 	}

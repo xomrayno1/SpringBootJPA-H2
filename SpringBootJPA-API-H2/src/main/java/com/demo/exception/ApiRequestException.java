@@ -4,14 +4,14 @@ import org.springframework.http.HttpStatus;
 
 public class ApiRequestException  extends RuntimeException{
 	private  HttpStatus httpStatus;
-	private  String message;
+	private  String messages;
 	public ApiRequestException(String msg,HttpStatus httpStatus) {
 		//super(msg);
 		this(msg);
 		this.httpStatus = httpStatus;
 	}
 	public ApiRequestException(String msg) {
-		this.message = msg;
+		this.messages = msg;
 	}
 	public ApiRequestException(HttpStatus httpStatus) {
 		this.httpStatus = httpStatus; 
@@ -25,11 +25,11 @@ public class ApiRequestException  extends RuntimeException{
 	public void setHttpStatus(HttpStatus httpStatus) {
 		this.httpStatus = httpStatus;
 	}
-	public String getMessage() {
-		return message;
+	public String getMessages() {
+		return messages;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setMessages(String message) {
+		this.messages = message;
 	}
 	 
 	

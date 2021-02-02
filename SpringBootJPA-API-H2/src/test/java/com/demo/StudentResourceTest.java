@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,13 +22,22 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.demo.controller.StudentController;
 import com.demo.entity.Student;
+import com.demo.service.AddressService;
+import com.demo.service.CourseService;
 import com.demo.service.StudentService;
+import com.demo.utils.ResponseUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@SpringBootTest
+//@SpringBootTest
+//ko cần phải mock các phụ thuộc bên StudentController 
+//vì SpringBootTest sẽ quét hết và lưu vào context
+@WebMvcTest(value = StudentController.class)  
+// nếu sử dụng @WebMvcTest thì phải mock những phụ thuộc bên StudentController
 @RunWith(SpringRunner.class)
+ 
 public class StudentResourceTest {
 	
 	private MockMvc mockMvc;
@@ -36,11 +45,17 @@ public class StudentResourceTest {
 	@Autowired
 	private WebApplicationContext context;
 	
-//	@MockBean
-//	private StudentRepository studentRepo;
+ 
 	
 	@MockBean
 	private StudentService studentService;
+	
+	@MockBean
+	CourseService courseService;
+	@MockBean
+	AddressService addressService;
+	@MockBean
+	ResponseUtils responseUtils;
 	
 	@Before
 	public void setUp() {
@@ -66,10 +81,7 @@ public class StudentResourceTest {
  				result.getResponse().getHeader(HttpHeaders.LOCATION));
 	}
 	
-	
-	
-	
-	
+ 
 	@Test
 	public void testGetStudent() throws Exception{
 		when(studentService.getById(Mockito.anyLong()))//Mockito.anyLong()
