@@ -53,6 +53,31 @@ public class Student {
 	public Student( ) {
  
 	}
+	
+	public Student(long id,
+			@NotBlank(message = "required") @Size(min = 2, max = 26, message = "Size column 3 - 26") String firstName,
+			@NotBlank(message = "required") @Size(min = 2, max = 26, message = "Size column 3 - 26") String lastName,
+			@NotBlank(message = "required") @Size(min = 4, max = 26, message = "Size column 4 - 26") String codeStudent
+			 ) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		 
+		this.codeStudent = codeStudent;
+		 
+	}
+
+	public Student(
+			@NotBlank(message = "required") @Size(min = 2, max = 26, message = "Size column 3 - 26") String firstName,
+			@NotBlank(message = "required") @Size(min = 2, max = 26, message = "Size column 3 - 26") String lastName,
+			@NotBlank(message = "required") @Size(min = 4, max = 26, message = "Size column 4 - 26") String codeStudent) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.codeStudent = codeStudent;
+	}
+
 	public Student(long id) {
 		 
 		this.id = id;

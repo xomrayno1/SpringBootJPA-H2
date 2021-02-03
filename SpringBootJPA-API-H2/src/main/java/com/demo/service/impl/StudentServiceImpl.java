@@ -62,4 +62,10 @@ public class StudentServiceImpl implements StudentService{
 		// TODO Auto-generated method stub
 		return studentRepo.findByCodeStudent(code) != null ? true : false;
 	}
+
+	@Override
+	public Student getOne(long id) {
+		// TODO Auto-generated method stub
+		return studentRepo.getOne(id);
+	}
 }

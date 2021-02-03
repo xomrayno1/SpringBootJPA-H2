@@ -21,6 +21,20 @@ public class Address {
 
 	private Student student;
 	
+	
+	
+	
+	
+	public Address() {
+		super();
+	}
+	public Address(String province, String district, String ward, Student student) {
+		super();
+		this.province = province;
+		this.district = district;
+		this.ward = ward;
+		this.student = student;
+	}
 	public long getId() {
 		return id;
 	}

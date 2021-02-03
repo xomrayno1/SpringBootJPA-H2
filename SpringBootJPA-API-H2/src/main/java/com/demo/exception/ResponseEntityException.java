@@ -20,8 +20,11 @@ public class ResponseEntityException extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		// TODO Auto-generated method stub
-		ApiException apiException = 
-					new ApiException(ex.getBindingResult().toString(), status, new Date());
+		ApiException apiException = new ApiException("Valdiation failed"
+													, status.BAD_REQUEST.value()
+													//, ex.getBindingResult().toString()
+													,request.getDescription(false)
+													, new Date());
 		return new ResponseEntity<Object>(apiException,HttpStatus.BAD_REQUEST);
 	}
 	 
