@@ -22,7 +22,9 @@ public class Address {
 	private Student student;
 	
 	
-	
+	@ManyToOne
+	@JoinColumn(name = "empId")
+	private Employee employeeId;
 	
 	
 	public Address() {
@@ -69,6 +71,12 @@ public class Address {
 	public String toString() {
 		return "Address [id=" + id + ", province=" + province + ", district=" + district + ", ward=" + ward
 				+ ", student=" + student + "]";
+	}
+	public Employee getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(Employee employeeId) {
+		this.employeeId = employeeId;
 	}
 	
 	
