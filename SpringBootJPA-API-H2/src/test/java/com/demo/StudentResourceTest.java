@@ -36,10 +36,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 //vì SpringBootTest sẽ quét hết và lưu vào context
 @WebMvcTest(value = StudentController.class)  
 // nếu sử dụng @WebMvcTest thì phải mock những phụ thuộc bên StudentController
-@RunWith(SpringRunner.class)
- 
+@RunWith(SpringRunner.class) //@RunWith(SpringRunner.class) @Mock
 public class StudentResourceTest {
 	
+	//https://howtodoinjava.com/spring-boot2/testing/testing-support/
 	private MockMvc mockMvc;
 	
 	@Autowired
@@ -47,7 +47,7 @@ public class StudentResourceTest {
 	
  
 	
-	@MockBean
+	@MockBean // giúp kích hoạt chế độ  giả của một lớp nhất định
 	private StudentService studentService;
 	
 	@MockBean
@@ -69,7 +69,7 @@ public class StudentResourceTest {
  		when(studentService.createStudent(Mockito.any(Student.class)))
 								.thenReturn(student);
  		ObjectMapper mapper = new ObjectMapper();
- 		 
+ 		 	
  		MvcResult result = mockMvc.perform(
  					post("/api/v1/students").accept(MediaType.APPLICATION_JSON)
  					.content(mapper.writeValueAsString(student)).contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -86,13 +86,13 @@ public class StudentResourceTest {
 	public void testGetStudent() throws Exception{
 		when(studentService.getById(Mockito.anyLong()))//Mockito.anyLong()
 									.thenReturn(
-											new Student(1,"Nguyen", "Tam", "Az")
+											new Student(1,"Nguyen", "Tam", "Azzz")
 											);
 		MvcResult mvcResult = mockMvc.perform(
 				 get("/api/v1/students/1").accept(MediaType.APPLICATION_JSON_VALUE)
 				).andReturn();
 		System.out.println(mvcResult.getResponse().getContentAsString());
-		String expected = "{id:1,firstName:Nguyen,lastName:Tam,code:Az}";
+		String expected = "{id:1,firstName:Nguyen,lastName:Tam,code:Azzz}";
 		JSONAssert.assertEquals(expected, mvcResult.getResponse().getContentAsString(), false);
 		Mockito.verify(studentService).getById(1);
 	}

@@ -14,4 +14,6 @@ public interface StudentService {
 	 Student getById(long id);
 	 List<Student> getByCourse(Course course);
 	 boolean isExists(String code);
+	 Student getOne(long id);
+	 
 }

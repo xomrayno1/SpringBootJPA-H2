@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,6 +41,7 @@ public class StudentController {
 	AddressService addressService;
 	@Autowired
 	ResponseUtils responseUtils;
+	
 	@GetMapping
 	public	ResponseEntity<APIResponse> getAll() {
 		List<Student> students = 	studentService.getAll();
@@ -48,13 +50,22 @@ public class StudentController {
 		}
 		return responseUtils.buildResponseSuccess(students);
 	}
+	
+//	@GetMapping("/{id}")
+//	public	ResponseEntity<APIResponse> getById(@PathVariable("id") long id) {
+//		Student student = studentService.getById(id);
+//		if(student == null) {
+//			throw new ResourceNotFoundException("student not found exception with id :"+id);
+//		}
+//		return responseUtils.buildResponseSuccess(student);
+//	}
 	@GetMapping("/{id}")
-	public	ResponseEntity<APIResponse> getById(@PathVariable("id") long id) {
+	public	ResponseEntity<Student> getById(@PathVariable("id") long id) {
 		Student student = studentService.getById(id);
 		if(student == null) {
 			throw new ResourceNotFoundException("student not found exception with id :"+id);
 		}
-		return responseUtils.buildResponseSuccess(student);
+		return new ResponseEntity<Student>(student,HttpStatus.OK);
 	}
 	@GetMapping("/{id}/courses") // lấy ra các khóa học của student
 	public	ResponseEntity<APIResponse> getCourseByStudentId(@PathVariable("id") long id) {
@@ -83,7 +94,7 @@ public class StudentController {
 		 
 	}
 	@PutMapping
-	public	ResponseEntity<Object> updateStudent(@Valid @RequestBody Student student) {
+	public	ResponseEntity<Object> updateStudent(@Valid @ModelAttribute Student student) {
 		Student oldStudent = studentService.getById(student.getId());
 		if(oldStudent == null) {
 			throw new ResourceNotFoundException("student not found exception with  : "+student.getId());
