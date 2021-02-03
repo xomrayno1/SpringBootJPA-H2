@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.demo.entity.Addres;
 import com.demo.entity.Address;
 import com.demo.entity.Student;
 import com.demo.service.AddressService;
